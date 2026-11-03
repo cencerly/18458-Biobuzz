@@ -1,50 +1,84 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+@Config
 public class Shooter {
-    private DcMotorEx Launcher;
-    private double encoderCPM = 28;
-    private double kS = 0.1, kV = 0.000192, kP = 0.007;
 
-    //kS overcome friction
-    //kV Over shoot/undershoot target rpm = close as possible
-    //kP reduce time it takes to get to goal rpm: Undershooting = kP is too low, Overshooting = kP is too high  EX: Oscillation means kP is too high
-    public void init(HardwareMap hwMap) {
-        Launcher = hwMap.get(DcMotorEx.class, "Launcher");
-        //  Launch2 = hwMap.get(DcMotorEx.class, "Launch2");
-        Launcher.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //  Launch2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    public static double kP = 0.004, kI = 0.00, kD = 0.0000002, kF = 0.03;
+    private PIDController velController;
+    public DcMotorEx shooter;
+
+    public double reverseRPM = 3000;
+    public double targetRPM = 3000;
+    public double farTargetRPM = 6000;
+    public double ticksPerSecond;
+    private final Gamepad Driver1;
+
+    Telemetry telemetry;
+
+    private static final double TICKS_PER_REV = 28;
+
+    public Shooter(OpMode opMode) {
+        HardwareMap hardwareMap = opMode.hardwareMap;
+        Driver1 = opMode.gamepad1;
+        telemetry = opMode.telemetry;
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        velController = new PIDController(kP, kI, kD);
+
+    }
+    public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+    public void teleOp() {
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+
     }
 
-    public void setMotorPower(double power){Launcher.setPower(power);
-    }
-    public void stopMotors(){Launcher.setPower(0);
+    public void reverseShooter() {
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+
+        velController.setPID(-kP, -kI, -kD);
+
+        double pid = velController.calculate(currentRPM, reverseRPM);
+        shooter.setPower(pid);
+
+        telemetry.addData("CloseCurrent RPM", currentRPM);
+        telemetry.addData("CloseTarget RPM", targetRPM);
+        telemetry.addData("Power", pid);
     }
 
-    public void setMotorRPM(double targetRPM) {
-        TelemetryPacket packet = new TelemetryPacket();
-        //Call Every Loop
-        double error = targetRPM - getRPM();
-        double ff = (kV * targetRPM) + kS;
-        double fb = error * kP;
-        double power = ff + fb;
-        setMotorPower(power);
+    public void runShooter() {
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-        packet.put("targetRPM", targetRPM);
-        packet.put("currentRPM", getRPM());
-        packet.put("error", error);
-        packet.put("power", power);
-        FtcDashboard.getInstance().sendTelemetryPacket(packet);
+        velController.setPID(kP, kI, kD);
+
+        double pid = velController.calculate(currentRPM, targetRPM);
+        shooter.setPower(pid);
+
+
+        telemetry.addData("CloseCurrent RPM", currentRPM);
+        telemetry.addData("CloseTarget RPM", targetRPM);
+        telemetry.addData("Power", pid);
     }
 
-    public double getTicksPerSec(){return Launcher.getVelocity();
-    }
-    public double getRPM(){return ((getTicksPerSec()/ encoderCPM) * 60);
+    public void stopShooter() {
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        shooter.setPower(0);
     }
 }
