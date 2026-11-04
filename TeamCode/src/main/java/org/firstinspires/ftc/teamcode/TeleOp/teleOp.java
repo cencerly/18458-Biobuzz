@@ -29,7 +29,7 @@ public class teleOp extends LinearOpMode  {
             }
 
             if (gamepad1.x)  {
-                shooter.reverseShooter();
+                shooter.ReverseShooter();
             }
 
             if (gamepad1.a) {
