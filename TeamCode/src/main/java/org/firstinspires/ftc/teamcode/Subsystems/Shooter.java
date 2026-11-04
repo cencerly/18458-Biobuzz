@@ -57,6 +57,9 @@ public class Shooter {
         telemetry.addData("Power", pid);
     }
 
+    public void ReverseShooter() {
+        shooter.setPower(-1);
+    }
     public void stopShooter() {
         shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         shooter.setPower(0);
