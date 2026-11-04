@@ -16,6 +16,8 @@ public class Intake {
         intakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intakeLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         gamepad = new Gamepad();
     }
 
