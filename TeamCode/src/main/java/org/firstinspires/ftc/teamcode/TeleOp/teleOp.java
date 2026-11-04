@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.Subsystems.Linkage;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 @TeleOp (name = "TeleOp")
 public class teleOp extends LinearOpMode  {
@@ -13,6 +14,9 @@ public class teleOp extends LinearOpMode  {
         DT dt = new DT(this);
         Shooter shooter = new Shooter(this);
         Intake intake = new Intake();
+        Linkage linkage = new Linkage();
+
+        boolean LinkageState = true;
 
         waitForStart();
 
@@ -21,6 +25,7 @@ public class teleOp extends LinearOpMode  {
             dt.teleop();
             intake.init(hardwareMap);
             shooter.teleOp();
+            linkage.init(hardwareMap);
 
             if (gamepad1.right_bumper) {
                 shooter.runShooter();
@@ -32,13 +37,25 @@ public class teleOp extends LinearOpMode  {
                 shooter.ReverseShooter();
             }
 
-            if (gamepad1.a) {
+            if (gamepad1.x) {
                 intake.intake();
-            } else if (gamepad1.b) {
+            } else if (gamepad1.y) {
                 intake.reverse();
             } else {
                 intake.stop();
             }
+
+
+            if (gamepad1.a) {
+               LinkageState = !LinkageState;
+            }
+
+            if (LinkageState) {
+                linkage.rest();
+            } else if (!LinkageState) {
+                linkage.down();
+            }
+
 
             telemetry.addLine("=== TURRET ===");
             telemetry.addLine();
