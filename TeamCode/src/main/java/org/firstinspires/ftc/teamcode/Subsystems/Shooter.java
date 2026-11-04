@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -14,15 +12,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.004, kI = 0.00, kD = 0.0000002, kF = 0.03;
-    private PIDController velController;
+    public static double kP = 0.004, kI = 0.00, kD = 0.0000002;
+    private final PIDController velController;
     public DcMotorEx shooter;
-
-    public double reverseRPM = 3000;
     public double targetRPM = 3000;
-    public double farTargetRPM = 6000;
     public double ticksPerSecond;
-    private final Gamepad Driver1;
+    public Gamepad Driver1;
 
     Telemetry telemetry;
 
@@ -44,21 +39,6 @@ public class Shooter {
         ticksPerSecond = shooter.getVelocity();
         currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-    }
-
-    public void reverseShooter() {
-        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        ticksPerSecond = shooter.getVelocity();
-        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
-
-        velController.setPID(-kP, -kI, -kD);
-
-        double pid = velController.calculate(currentRPM, reverseRPM);
-        shooter.setPower(pid);
-
-        telemetry.addData("CloseCurrent RPM", currentRPM);
-        telemetry.addData("CloseTarget RPM", targetRPM);
-        telemetry.addData("Power", pid);
     }
 
     public void runShooter() {
