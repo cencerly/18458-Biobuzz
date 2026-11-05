@@ -10,8 +10,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Linkage {
-    private static final double REST_POSE = 1;
-    private static final double GRAB_POSE = 0;
+    private static final double REST_POSE = .628;
+    private static final double GRAB_POSE = .91;
     public Servo servo1, servo2;
     public HardwareMap hardwareMap;
     public IMU imu;
