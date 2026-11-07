@@ -25,7 +25,8 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ *//*
+
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
@@ -41,6 +42,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
+*/
 /*
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation,
  * including Java Builder structures for specifying Vision parameters.
@@ -64,21 +66,26 @@ import java.util.List;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */
+ *//*
+
 @TeleOp(name = "Concept: AprilTag", group = "Concept")
 @Disabled
 public class ConceptAprilTag extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    /**
+    */
+/**
      * The variable to store our instance of the AprilTag processor.
-     */
+     *//*
+
     private AprilTagProcessor aprilTag;
 
-    /**
+    */
+/**
      * The variable to store our instance of the vision portal.
-     */
+     *//*
+
     private VisionPortal visionPortal;
 
     @Override
@@ -117,9 +124,11 @@ public class ConceptAprilTag extends LinearOpMode {
 
     }   // end method runOpMode()
 
-    /**
+    */
+/**
      * Initialize the AprilTag processor.
-     */
+     *//*
+
     private void initAprilTag() {
 
         // Create the AprilTag processor.
@@ -186,9 +195,11 @@ public class ConceptAprilTag extends LinearOpMode {
     }   // end method initAprilTag()
 
 
-    /**
+    */
+/**
      * Add telemetry about AprilTag detections.
-     */
+     *//*
+
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -215,3 +226,4 @@ public class ConceptAprilTag extends LinearOpMode {
     }   // end method telemetryAprilTag()
 
 }   // end class
+*/

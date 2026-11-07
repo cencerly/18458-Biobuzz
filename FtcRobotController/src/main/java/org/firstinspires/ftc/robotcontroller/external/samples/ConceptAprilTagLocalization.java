@@ -25,7 +25,8 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ *//*
+
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
@@ -45,6 +46,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
+*/
 /*
  * This OpMode illustrates the basics of AprilTag based localization.
  *
@@ -63,14 +65,16 @@ import java.util.List;
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */
+ *//*
+
 @TeleOp(name = "Concept: AprilTag Localization", group = "Concept")
 @Disabled
 public class ConceptAprilTagLocalization extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    /**
+    */
+/**
      * Variables to store the position and orientation of the camera on the robot. Setting these
      * values requires a definition of the axes of the camera and robot:
      *
@@ -93,20 +97,25 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
      * the camera is horizontal. Use a yaw of 0 if the camera is pointing forwards, +90 degrees if
      * it's pointing straight left, -90 degrees for straight right, etc. You can also set the roll
      * to +/-90 degrees if it's vertical, or 180 degrees if it's upside-down.
-     */
+     *//*
+
     private Position cameraPosition = new Position(DistanceUnit.INCH,
             0, 0, 0, 0);
     private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
             0, -90, 0, 0);
 
-    /**
+    */
+/**
      * The variable to store our instance of the AprilTag processor.
-     */
+     *//*
+
     private AprilTagProcessor aprilTag;
 
-    /**
+    */
+/**
      * The variable to store our instance of the vision portal.
-     */
+     *//*
+
     private VisionPortal visionPortal;
 
     @Override
@@ -143,9 +152,11 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
 
     }   // end method runOpMode()
 
-    /**
+    */
+/**
      * Initialize the AprilTag processor.
-     */
+     *//*
+
     private void initAprilTag() {
 
         // Create the AprilTag processor.
@@ -212,9 +223,11 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
 
     }   // end method initAprilTag()
 
-    /**
+    */
+/**
      * Add telemetry about AprilTag detections.
-     */
+     *//*
+
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -225,7 +238,7 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
             if (detection.metadata != null) {
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
                 // Only use tags that don't have Obelisk in them
-                if (!detection.metadata.name.contains("Obelisk")) {
+//                if (!detection.metadata.name.contains("Obelisk")) {
                     telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
                             detection.robotPose.getPosition().x,
                             detection.robotPose.getPosition().y,
@@ -248,3 +261,4 @@ public class ConceptAprilTagLocalization extends LinearOpMode {
     }   // end method telemetryAprilTag()
 
 }   // end class
+*/
