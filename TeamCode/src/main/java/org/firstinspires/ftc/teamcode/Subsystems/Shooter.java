@@ -13,10 +13,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.00086324, kI = 0.00, kD = 3.50004002;
+    public static double kP = 0.00086324, kI = 0.00, kD = 0.0000000000003547002;
     private final PIDController velController;
     public DcMotorEx shooter, shooter2;
-    public double targetRPM = 3000;
+    public double targetRPM = 2650;
     public double ticksPerSecond;
     public Gamepad Driver1;
 
@@ -72,5 +72,11 @@ public class Shooter {
         shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         shooter.setPower(0);
         shooter2.setPower(0);
+    }
+
+    public double rpm () {
+        shooter.getVelocity();
+        shooter2.getVelocity();
+        return rpm();
     }
 }

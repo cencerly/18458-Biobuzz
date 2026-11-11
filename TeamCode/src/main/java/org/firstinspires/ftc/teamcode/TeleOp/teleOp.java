@@ -37,20 +37,20 @@ public class teleOp extends LinearOpMode  {
                 shooter.stopShooter();
             }
 
-            if (gamepad1.x)  {
+            if (gamepad1.y)  {
                 shooter.ReverseShooter();
             }
 
-            if (gamepad1.x) {
+            if (gamepad1.y) {
                 intake.intake();
-            } else if (gamepad1.y) {
+            } else if (gamepad1.x) {
                 intake.reverse();
             } else {
                 intake.stop();
             }
 
 
-            if (gamepad1.a) {
+            if (gamepad1.b) {
                LinkageState = !LinkageState;
             }
 
@@ -60,12 +60,12 @@ public class teleOp extends LinearOpMode  {
                 linkage.down();
             }
 
-            if (gamepad1.dpad_up) {
+            if (gamepad1.dpad_down) {
+                turret.FaceRight();
+            } else if (gamepad1.dpad_up) {
                 turret.FaceForward();
             } else if (gamepad1.dpad_left) {
                 turret.FaceLeft();
-            } else if (gamepad1.dpad_right) {
-                turret.FaceRight();
             }
 
 

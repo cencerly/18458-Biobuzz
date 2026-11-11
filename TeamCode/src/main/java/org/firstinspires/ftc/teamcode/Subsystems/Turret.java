@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Turret {
 
     double forward = 1;
-    double right = .5;
+    double right = .5 ;
     double left = 0;
 
     Servo rightTurret, leftTurret;

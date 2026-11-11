@@ -9,21 +9,22 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
     public DcMotorEx intakeRight, intakeLeft;
     Gamepad gamepad;
+
+    double IntakeOn = 1;
     public void init(HardwareMap hardWareMap) {
         intakeRight = hardWareMap.get(DcMotorEx.class, "intakeRight");
         intakeLeft = hardWareMap.get(DcMotorEx.class, "intakeLeft");
 
-        intakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        intakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        intakeLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        intakeLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        intakeRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         intakeRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         gamepad = new Gamepad();
     }
 
     public void intake() {
-        intakeRight.setPower(1);
-        intakeLeft.setPower(1);
+        intakeRight.setPower(IntakeOn);
+        intakeLeft.setPower(IntakeOn);
     }
     public void reverse() {
         intakeRight.setPower(-1);

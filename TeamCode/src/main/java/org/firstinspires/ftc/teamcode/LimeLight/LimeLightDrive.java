@@ -15,14 +15,12 @@ import org.firstinspires.ftc.teamcode.TeleOp.DT;
 public class LimeLightDrive extends OpMode {
     DcMotor leftFront, leftBack, rightFront, rightBack;
     Limelight3A limelight;
-    DT dt;
-    IMU imu;
 
     @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(1);
-        dt = new DT(this);
+
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         leftBack = hardwareMap.get(DcMotor.class, "leftBack");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
@@ -30,12 +28,6 @@ public class LimeLightDrive extends OpMode {
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        imu = hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP);
-        imu.initialize(new IMU.Parameters(revHubOrientationOnRobot));
     }
 
     public void start () {
@@ -47,25 +39,38 @@ public class LimeLightDrive extends OpMode {
         LLResult llResult = limelight.getLatestResult();
 
         double tx = llResult.getTx();
-        double kp = .3;
 
-        double turnSpeed = tx * kp;
+        double turnSpeed = -tx;
+        double forward = 1;
+        double stop = 0;
 
         if (llResult.isValid() && llResult.getTx() >= 15) {
-            leftFront.setPower(-turnSpeed);
-            leftBack.setPower(-turnSpeed);
+            leftFront.setPower(turnSpeed);
+            leftBack.setPower(turnSpeed);
             rightBack.setPower(turnSpeed);
             rightFront.setPower(turnSpeed);
         } else if (llResult.isValid() && llResult.getTx() <= -15) {
             leftFront.setPower(turnSpeed);
             leftBack.setPower(turnSpeed);
-            rightBack.setPower(-turnSpeed);
-            rightFront.setPower(-turnSpeed);
-        } else if (Math.abs(tx) <= 15 || (Math.abs(tx) >= -15)); {
-            leftFront.setPower(0);
-            leftBack.setPower(0);
-            rightBack.setPower(0);
-            rightFront.setPower(0);
+            rightBack.setPower(turnSpeed);
+            rightFront.setPower(turnSpeed);
+        } else {
+            leftFront.setPower(stop);
+            leftBack.setPower(stop);
+            rightBack.setPower(stop);
+            rightFront.setPower(stop);
+        }
+
+        if (llResult.isValid()) {
+            leftFront.setPower(-forward);
+            leftBack.setPower(-forward);
+            rightBack.setPower(forward);
+            rightFront.setPower(forward);
+        } else {
+            leftFront.setPower(stop);
+            leftBack.setPower(stop);
+            rightBack.setPower(stop);
+            rightFront.setPower(stop);
         }
     }
 }

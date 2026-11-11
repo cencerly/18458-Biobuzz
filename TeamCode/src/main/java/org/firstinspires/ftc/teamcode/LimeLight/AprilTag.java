@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.LimeLight;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 public class AprilTag {
-    DcMotorEx turret;
+    Servo turret;
     Limelight3A limelight;
     double kP = 0.01484;
     double kD = 0.01224;
@@ -22,9 +20,7 @@ public class AprilTag {
     private final ElapsedTime timer = new ElapsedTime();
 
     public void init(HardwareMap hardwareMap) {
-        turret = hardwareMap.get(DcMotorEx.class, "turret");
-        turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        turret.setDirection(DcMotorEx.Direction.REVERSE);
+        turret = hardwareMap.get(Servo.class, "turret");
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(1);
     }
@@ -53,7 +49,7 @@ public class AprilTag {
         double deltaTime = timer.seconds();
         timer.reset();
         if (llResult == null) {
-            turret.setPower(0);
+            turret.setPosition(0);
             lastError = 0;
             return;
         }
@@ -72,7 +68,7 @@ public class AprilTag {
             power = Range.clip(pTerm + dTerm, -MAX_POWER, MAX_POWER);
         }
 
-        turret.setPower(power);
+        turret.setPosition(power);
         lastError = error;
 
     }
